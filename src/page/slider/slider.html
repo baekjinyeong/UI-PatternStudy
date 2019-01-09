@@ -5,30 +5,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="../../css/style.css" rel="stylesheet" />
-  <title>Project Name</title>
+  <link href="../../css/slider.less" rel="stylesheet" />
+  <title>slider</title>
 </head>
 
 <body>
+  <div class="content">
+    <!-- 기본 가로 슬라이드 -->
+    <div class="slider">
+      <div class="slider-wrapper">
+        <div class="slider-inner-block">
+          <ul class="slider-list">
+            <li class="slider-item">1</li>
+            <li class="slider-item">2</li>
+            <li class="slider-item">3</li>
+            <li class="slider-item">4</li>
+            <li class="slider-item">5</li>
+            <li class="slider-item">6</li>
+          </ul>
+        </div>
+        <button type="button" class="slider-button slider-button--prev" title="왼쪽으로 슬라이드 넘기기"></button>
+        <button type="button" class="slider-button slider-button--next" title="오른쪽으로 슬라이드 넘기기"></button>
+      </div>
+    </div>
+    <!-- //기본 가로 슬라이드 -->
+  </div>
+  <script src="../../js/slider.js"></script>
+  <script type="text/javascript" src="js/jquery-1.7.1.js"></script>
+  <script type="text/javascript" src="js/jquery-ui-1.8.17.min.js"></script>
 
-  <header class="header">
-    @@include('_include/header.html',{ "text": "hello world"})
-    <button type="button" class="header-toggle">Toggle</button>
-  </header>
-
-  <main class="main">
-    Main
-    <span class="icon icon-checkbox"></span>
-    <span class="icon icon-checkbox-on"></span>
-    <span class="icon icon-checkbox-over"></span>
-
-  </main>
-
-  <footer class="footer">
-    Footer
-  </footer>
-
-  <script src="../../js/main.js"></script>
 </body>
 
 </html>
