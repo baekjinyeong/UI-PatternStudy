@@ -19,20 +19,19 @@ export default function slider() {
   $.fn.load = function(callback){ $(window).on("load", callback) };
 
   sliderList.css('width', itemWidth * itemLength);
-  sliderItem.css('left', '100%');
-  $('li.slider-item:first-child').css('left', 0);
 
   // 새로고침 시 auto slide
   win.load(() => {
-    // startPlay();
-  });
-
-  // 이전버튼
-  buttonPrev.on('click', () => {
-    movePrev();
+    startPlay();
   });
 
   // 다음버튼
+  buttonPrev.on('click', () => {
+    movePrev();
+    bulletCurrent();
+  });
+
+  // 이전버튼
   buttonNext.on('click', () => {
     moveNext();
   });
@@ -41,14 +40,19 @@ export default function slider() {
   buttonBullet.on('click', e => {
     e.preventDefault();
     const target = $(e.target);
+
+    count = target.index();
     target
       .addClass('active')
       .siblings()
       .removeClass('active');
 
-    count = target.index();
-
-    
+    sliderList.stop().animate(
+      {
+        left: count * -itemWidth
+      },
+      300
+    );
     console.log(count);
   });
 
@@ -59,6 +63,8 @@ export default function slider() {
       .addClass('is-active')
       .siblings()
       .removeClass('is-active');
+
+    console.log(count, 'start');
   });
 
   // 멈춤버튼
@@ -68,61 +74,39 @@ export default function slider() {
       .addClass('is-active')
       .siblings()
       .removeClass('is-active');
+    console.log(count, 'stop');
   });
 
   // 이전
   const movePrev = () => {
-    count = $('.slider-item')
-      .eq(count)
-      .index();
-
-    if (count === 0) {
-      count = 5;
-      $('li.slider-item:first-child').animate({ left: '100%' });
-    }
-
-    if (0 < count) {
-      count--;
-      bulletCurrent();
-      console.log(count);
-
-      var _this = $('.slider-item');
-
-      _this
-        .eq(count)
-        .css('left', '-100%')
-        .stop()
-        .animate({ left: 0 }, 300);
-      _this
-        .eq(count + 1)
-        .stop()
-        .animate({ left: '100%' }, 300);
-    }
+    count--;
+    console.log(count);
   };
 
   // 다음
   const moveNext = () => {
-    if (0 < itemLength) {
+    console.log(count);
+    if (count >= 0) {
       count++;
-      console.log(count);
-      bulletCurrent();
-
-      var _this = $('.slider-item');
-
-      _this
-        .eq(count)
-        .css('left', '100%')
-        .stop()
-        .animate({ left: 0 }, 300);
-      _this
-        .eq(count - 1)
-        .stop()
-        .animate({ left: '-100%' }, 300);
-
-      if (count === itemLength - 1) {
-        count = -1;
-      }
+      sliderList.stop().animate(
+        {
+          left: '+=' + -itemWidth
+        },
+        300,
+        () => {
+          if (count >= 0) {
+            sliderList
+              .children('li.slider-item:first-child')
+              .appendTo(sliderList);
+            sliderList.css('left', 0);
+          }
+        }
+      );
     }
+    if (count > 4) {
+      count = 0;
+    }
+    bulletCurrent();
   };
 
   // 블릿
