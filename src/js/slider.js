@@ -1,149 +1,124 @@
 import $ from 'jquery';
 
 export default function slider() {
-  var win = $(window);
-  var interval;
+  const defaults = {
+    count: 0,
+    pos: 'horizontal',
+    autoplay: false,
+    rollingSpeed: 300,
+    animateSpeed: 300,
+    animateStatus: true,
+    interval: false,
+    paging: true
+  };
+
+  const options = $.extend(defaults, options);
   const slider = $('.slider');
-  const sliderList = slider.find('.slider-list');
-  const sliderItem = slider.find('.slider-item');
-  const itemWidth = sliderItem.width();
-  const itemLength = sliderItem.length;
-  const buttonPrev = $('.slider-button--prev');
-  const buttonNext = $('.slider-button--next');
-  const bulletList = $('.slider-button-bullet');
-  const buttonBullet = bulletList.find('.bullet-item');
-  const buttonAutoPlay = $('.button-start');
-  const buttonAutoStop = $('.button-stop');
-  let count = 0;
+  const item = slider.find('.slider-item');
+  const itemWidth = parseInt(item.width());
+  const prev = slider.find('.slider-button--prev');
+  const next = slider.find('.slider-button--next');
+  const bullet = $('.bullet-item');
 
-  $.fn.load = function(callback){ $(window).on("load", callback) };
+  // 초기세팅
+  const init = () => {
+    if (options.pos === 'horizontal') {
+      item.css('left', '100%');
+      item.eq(options.count).css('left', 0);
+      bullet.eq(options.count).addClass('active');
+    }
+  };
+  init();
 
-  sliderList.css('width', itemWidth * itemLength);
-  sliderItem.css('left', '100%');
-  $('li.slider-item:first-child').css('left', 0);
-
-  // 새로고침 시 auto slide
-  win.load(() => {
-    // startPlay();
-  });
-
-  // 이전버튼
-  buttonPrev.on('click', () => {
-    movePrev();
-  });
-
-  // 다음버튼
-  buttonNext.on('click', () => {
-    moveNext();
-  });
-
-  // 블릿
-  buttonBullet.on('click', e => {
+  prev.on('click', e => {
     e.preventDefault();
-    const target = $(e.target);
-    target
-      .addClass('active')
-      .siblings()
-      .removeClass('active');
-
-    count = target.index();
-
-    
-    console.log(count);
+    rolling('prev', 'horizontal');
   });
 
-  // 재생버튼
-  buttonAutoPlay.on('click', () => {
-    startPlay();
-    buttonAutoPlay
-      .addClass('is-active')
-      .siblings()
-      .removeClass('is-active');
+  next.on('click', e => {
+    e.preventDefault();
+    rolling('next', 'horizontal');
   });
 
-  // 멈춤버튼
-  buttonAutoStop.on('click', () => {
-    stopPlay();
-    buttonAutoStop
-      .addClass('is-active')
-      .siblings()
-      .removeClass('is-active');
-  });
 
-  // 이전
-  const movePrev = () => {
-    count = $('.slider-item')
-      .eq(count)
-      .index();
-
-    if (count === 0) {
-      count = 5;
+  const movePrev = (type, current, num) => {
+    if (options.count === 0) {
+      options.count = 5;
       $('li.slider-item:first-child').animate({ left: '100%' });
     }
 
-    if (0 < count) {
-      count--;
-      bulletCurrent();
-      console.log(count);
+    if (0 < options.count) {
+      options.count--;
 
-      var _this = $('.slider-item');
-
-      _this
-        .eq(count)
+      item
+        .eq(parseInt(num))
         .css('left', '-100%')
         .stop()
-        .animate({ left: 0 }, 300);
-      _this
-        .eq(count + 1)
+        .animate({ left: 0 }, options.animateSpeed);
+
+      item
+        .eq(num + 1)
         .stop()
-        .animate({ left: '100%' }, 300);
+        .animate({ left: '100%' }, options.animateSpeed, function() {
+          options.animateStatus = true;
+        });
     }
   };
 
-  // 다음
-  const moveNext = () => {
-    if (0 < itemLength) {
-      count++;
-      console.log(count);
-      bulletCurrent();
+  const moveNext = (type, current, num) => {
+    if (0 < item.length) {
+      options.count++;
 
-      var _this = $('.slider-item');
-
-      _this
-        .eq(count)
+      item
+        .eq(parseInt(num))
         .css('left', '100%')
         .stop()
-        .animate({ left: 0 }, 300);
-      _this
-        .eq(count - 1)
-        .stop()
-        .animate({ left: '-100%' }, 300);
+        .animate({ left: 0 }, options.animateSpeed);
 
-      if (count === itemLength - 1) {
-        count = -1;
+      item
+        .eq(num - 1)
+        .stop()
+        .animate({ left: '-100%' }, options.animateSpeed, function() {
+          options.animateStatus = true;
+        });
+    }
+  };
+
+  const rolling = (direction, type, num) => {
+    var current = item.eq(options.count);
+
+    if (options.animateStatus === true) {
+      options.animateStatus = false;
+
+      if (direction === 'next') {
+        moveNext(type, current, num);
+      } else if (direction === 'prev') {
+        movePrev(type, current, num);
       }
     }
   };
 
   // 블릿
-  const bulletCurrent = () => {
-    buttonBullet
-      .eq(count)
-      .addClass('active')
-      .siblings()
-      .removeClass('active');
-  };
+  if (options.paging === true) {
+    slider.on('click', '.bullet-item', function(e) {
+      e.preventDefault;
 
-  // 자동재생
-  const startPlay = () => {
-    interval = setInterval(() => {
-      moveNext();
-    }, 3000);
-  };
+      const target = $(e.target);
+      target
+        .addClass('active')
+        .siblings()
+        .removeClass('active');
 
-  // 자동재생멈춤
-  const stopPlay = () => {
-    clearInterval(interval);
-  };
+      const idx = $(this).index();
+
+      if (options.count < idx) {
+        rolling('next', options.pos, idx);
+      } else if (options.count > idx) {
+        rolling('prev', options.pos, idx);
+      }
+
+      console.log(options.count, idx);
+    });
+  }
 }
 slider();
