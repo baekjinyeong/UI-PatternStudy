@@ -30,19 +30,23 @@ export default function slider() {
 
   prev.on('click', e => {
     e.preventDefault();
-    rolling('prev', options.count);
-    options.count--;
+    rolling('prev');
   });
 
   next.on('click', e => {
     e.preventDefault();
-    rolling('next', options.count);
+    rolling('next');
   });
 
   const movePrev = number => {
-    options.count = number;
+    if (options.count === 0) {
+      options.count = 5;
+      $('li.slider-item:first-child').animate({ left: '100%' });
+    }
 
-    if (0 <= number) {
+    if (options.count > number) {
+      number--;
+
       item
         .eq(parseInt(number))
         .css('left', '-100%')
@@ -52,14 +56,17 @@ export default function slider() {
       item
         .eq(number + 1)
         .stop()
-        .animate({ left: '100%' }, options.animateSpeed);
+        .animate({ left: '100%' }, options.animateSpeed, function() {
+          options.animateStatus = true;
+        });
     }
+    console.log(number);
   };
 
   const moveNext = number => {
-    options.count = number;
+    if (options.count < number) {
+      number++;
 
-    if (0 < item.length) {
       item
         .eq(parseInt(number))
         .css('left', '100%')
@@ -67,14 +74,13 @@ export default function slider() {
         .animate({ left: 0 }, options.animateSpeed);
 
       item
-        .eq(parseInt(number - 1))
+        .eq(number - 1)
         .stop()
-        .animate({ left: '-100%' }, options.animateSpeed);
-
-      if (number === item.length) {
-        options.count = 0;
-      }
+        .animate({ left: '-100%' }, options.animateSpeed, function() {
+          options.animateStatus = true;
+        });
     }
+    console.log(number);
   };
 
   const rolling = (direction, num) => {
@@ -85,13 +91,13 @@ export default function slider() {
     }
   };
 
-  // 블릿 사용할 경우
+  // 블릿
   if (options.paging === true) {
     slider.on('click', '.bullet-item', function(e) {
       e.preventDefault;
 
       const target = $(e.target);
-      const idx = target.index();
+      const idx = $(this).index();
 
       target
         .addClass('active')
@@ -100,28 +106,10 @@ export default function slider() {
 
       if (options.count < idx) {
         rolling('next', idx);
-        item
-          .eq(idx)
-          .nextAll()
-          .css('left', '100%');
-        item
-          .eq(idx)
-          .prevAll()
-          .css('left', '-100%');
       } else if (options.count > idx) {
         rolling('prev', idx);
-        item
-          .eq(idx)
-          .nextAll()
-          .css('left', '100%');
-        item
-          .eq(idx)
-          .prevAll()
-          .css('left', '-100%');
       }
     });
-  } else {
-    options.paging = false;
   }
 }
 slider();
