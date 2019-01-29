@@ -1,4 +1,36 @@
 import $ from 'jquery';
+const defaults = {
+
+};
+
+class Slider {
+  constructor(option){
+    this.options = $.extend({}, defaults, option);
+    this.activeIndex = 0;
+    const rootElement = $(options.rootSelector);
+    const prevBUttonElement = rootElement.find(options.prevBUttonSeletor);
+    const nextBUttonElement =rootElement.find(options.nextBUttonSeletor);
+    rootElement.on('click', nextBUttonElement, () => {
+      this.next();
+    }).on('click', prevBUttonElement, () => {
+      this.prev();
+  });
+
+  prev(){
+    this.motion(this.activeIndex-1);
+  }
+  next(){
+    this.motion(this.activeIndex+1);
+  }
+  motion(newIndex){
+    console.log(this.activeIndex, newIndex);
+  }
+  slideTo(idx){
+    this.motion(idx);
+  }
+}
+
+const slider1 = new Slider({rootSelector: '#slider1');
 
 export default function slider(option) {
   const defaults = {
@@ -152,4 +184,3 @@ export default function slider(option) {
       .removeClass('active');
   };
 }
-slider();
