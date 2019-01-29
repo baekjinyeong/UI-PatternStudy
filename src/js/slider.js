@@ -5,24 +5,22 @@ const defaults = {
   prevButtonSeletor: '.slider-button--prev',
   nextButtonSeletor: '.slider-button--next',
   bulletButtonSeletor: '.bullet-item',
-  count: 0,
   pos: 'horizontal',
   autoplay: false,
   rollingSpeed: 300,
   animateSpeed: 300,
   interval: false,
-  paging: true
+  paging: true,
+  activeIndex: 0
 };
 
 class Slider {
   constructor(option) {
-    this.activeIndex = 0;
-
-    const obj = $.extend({}, defaults, option);
-    const rootElement = $(obj.rootSelector);
-    const prevButtonElement = rootElement.find(obj.prevButtonSeletor);
-    const nextButtonElement = rootElement.find(obj.nextButtonSeletor);
-    const bulletButtonElement = rootElement.find(obj.bulletButtonSeletor);
+    const options = $.extend({}, defaults, option);
+    const rootElement = $(options.rootSelector);
+    const prevButtonElement = rootElement.find(options.prevButtonSeletor);
+    const nextButtonElement = rootElement.find(options.nextButtonSeletor);
+    const bulletButtonElement = rootElement.find(options.bulletButtonSeletor);
 
     rootElement
       .on('click', nextButtonElement, () => {
@@ -36,15 +34,9 @@ class Slider {
       });
   }
 
-  prev() {
-
-  }
-  next() {
-
-  }
-  motion() {
-
-  }
+  prev() {}
+  next() {}
+  motion() {}
 }
 
-const slider1 = new Slider({rootElement: 'slider1'});
+const slider1 = new Slider({rootSelector: '#slider1'});
