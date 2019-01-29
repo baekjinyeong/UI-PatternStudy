@@ -1,7 +1,10 @@
 import $ from 'jquery';
 
 const defaults = {
-  rootElement: '.slider',
+  rootSelector: '.slider',
+  prevButtonSeletor: '.slider-button--prev',
+  nextButtonSeletor: '.slider-button--next',
+  bulletButtonSeletor: '.bullet-item',
   count: 0,
   pos: 'horizontal',
   autoplay: false,
@@ -13,8 +16,34 @@ const defaults = {
 
 class Slider {
   constructor(option) {
-    this.options = $.extend({}, defaults, option);
-    console.log(this);
+    this.activeIndex = 0;
+
+    const obj = $.extend({}, defaults, option);
+    const rootElement = $(obj.rootSelector);
+    const prevButtonElement = rootElement.find(obj.prevButtonSeletor);
+    const nextButtonElement = rootElement.find(obj.nextButtonSeletor);
+    const bulletButtonElement = rootElement.find(obj.bulletButtonSeletor);
+
+    rootElement
+      .on('click', nextButtonElement, () => {
+        this.next();
+      })
+      .on('click', prevButtonElement, () => {
+        this.prev();
+      })
+      .on('click', bulletButtonElement, () => {
+        this.motion();
+      });
+  }
+
+  prev() {
+
+  }
+  next() {
+
+  }
+  motion() {
+
   }
 }
 
