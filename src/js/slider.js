@@ -1,47 +1,53 @@
 import $ from 'jquery';
 
-const defaults = {
+const defaluts = {
+  direction: 'horizontal',
   rootSelector: '.slider',
-  prevButtonSeletor: '.slider-button--prev',
-  nextButtonSeletor: '.slider-button--next',
-  bulletButtonSeletor: '.bullet-item',
-  pos: 'horizontal',
-  autoplay: false,
-  rollingSpeed: 300,
-  animateSpeed: 300,
-  interval: false,
-  paging: true,
-  activeIndex: 0
+  activeClass: 'active',
+  activeIndex: 0,
+  activeItemSelector: '.item-slider',
+  prevButtonSelector: '.silder-button--prev',
+  nextButtonSelector: '.slider-button--next',
+  indexMinNumber: 0,
+  indexMaxNumber: 4
 };
 
 class Slider {
   constructor(option) {
-    const settings = $.extend({}, defaults, option);
+    const settings = $.extend({}, defaluts, option);
     const rootElement = $(settings.rootSelector);
-    const prevButtonElement = rootElement.find(settings.prevButtonSeletor);
-    const nextButtonElement = rootElement.find(settings.nextButtonSeletor);
-    const bulletButtonElement = rootElement.find(settings.bulletButtonSeletor);
-    this.activeIndex = 0;
-    console.log(settings);
+    const prevButton = rootElement.find(settings.prevButtonSelector);
+    const nextButton = rootElement.find(settings.nextButtonSelector);
 
-    rootElement
-      .on('click', prevButtonElement, () => {
-        this.prev();
-      })
-      .on('click', nextButtonElement, () => {
-        this.next();
-      })
-      .on('click', bulletButtonElement, () => {
-        this.motion();
-      });
+    this.currentIndex = settings.activeIndex;
+    this.settings = settings;
+    this.currentItem = settings.activeItemSelector;
+
+    if (settings.direction === 'horizontal') {
+      this.currentItem.css('left', '100%');
+      this.currentItem.eq(this.activeIndex).css('left', 0);
+    }
+
+    prevButton.on('click', () => {this.prev();});
+    nextButton.on('click', () => {this.next();});
+
   }
 
-  prev() {}
-  next() {}
-  motion() {}
-  slideTo() {}
+  prev() {
+    this.activeIndex--;
+    this.motion(this.activeIndex - 1);
+  }
+  next() {
+    this.activeIndex++;
+    this.motion(this.activeIndex + 1);
+  }
+  motion(newIdx) {
+    if (this.activeIndex < newIdx) {
+      this.currentItem.eq(newIdx).css('left', 0);
+    } else if (this.activeIndex > newIdx) {
+      this.currentItem.eq(newIdx).css('left', 0);
+    }
+  }
 }
 
-$(() => {
-  const slider1 = new Slider();
-});
+const slider = new Slider();
