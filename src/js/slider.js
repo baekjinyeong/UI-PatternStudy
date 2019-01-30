@@ -5,8 +5,8 @@ const defaluts = {
   rootSelector: '.slider',
   activeClass: 'active',
   activeIndex: 0,
-  activeItemSelector: '.item-slider',
-  prevButtonSelector: '.silder-button--prev',
+  activeItemSelector: '.slider-item',
+  prevButtonSelector: '.slider-button--prev',
   nextButtonSelector: '.slider-button--next',
   indexMinNumber: 0,
   indexMaxNumber: 4
@@ -21,32 +21,47 @@ class Slider {
 
     this.currentIndex = settings.activeIndex;
     this.settings = settings;
-    this.currentItem = settings.activeItemSelector;
+    this.currentItem = $(settings.activeItemSelector);
+    this.min = settings.indexMinNumber;
+    this.max = settings.indexMaxNumber;
 
     if (settings.direction === 'horizontal') {
       this.currentItem.css('left', '100%');
-      this.currentItem.eq(this.activeIndex).css('left', 0);
+      this.currentItem.eq(this.currentIndex).css('left', 0);
     }
 
-    prevButton.on('click', () => {this.prev();});
-    nextButton.on('click', () => {this.next();});
+    prevButton.on('click', () => {
+      this.prev();
+    });
+    nextButton.on('click', () => {
+      this.next();
+    });
 
   }
 
   prev() {
-    this.activeIndex--;
-    this.motion(this.activeIndex - 1);
+    this.motion(this.currentIndex - 1);
+    this.currentIndex--;
   }
   next() {
-    this.activeIndex++;
-    this.motion(this.activeIndex + 1);
+    this.motion(this.currentIndex + 1);
+    this.currentIndex++;
   }
   motion(newIdx) {
-    if (this.activeIndex < newIdx) {
+    if (this.currentIndex < newIdx) {
       this.currentItem.eq(newIdx).css('left', 0);
-    } else if (this.activeIndex > newIdx) {
+      this.currentItem.eq(this.currentIndex).css('left', '-100%');
+      if (newIdx === this.max) {
+        return false;
+      }
+    } else if (this.currentIndex > newIdx) {
       this.currentItem.eq(newIdx).css('left', 0);
+      this.currentItem.eq(this.currentIndex).css('left', '100%');
+      if (newIdx === this.min) {
+        return false;
+      }
     }
+    console.log(this.currentIndex, newIdx);
   }
 }
 
