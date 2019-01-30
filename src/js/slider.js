@@ -16,18 +16,20 @@ const defaults = {
 
 class Slider {
   constructor(option) {
-    const options = $.extend({}, defaults, option);
-    const rootElement = $(options.rootSelector);
-    const prevButtonElement = rootElement.find(options.prevButtonSeletor);
-    const nextButtonElement = rootElement.find(options.nextButtonSeletor);
-    const bulletButtonElement = rootElement.find(options.bulletButtonSeletor);
+    const settings = $.extend({}, defaults, option);
+    const rootElement = $(settings.rootSelector);
+    const prevButtonElement = rootElement.find(settings.prevButtonSeletor);
+    const nextButtonElement = rootElement.find(settings.nextButtonSeletor);
+    const bulletButtonElement = rootElement.find(settings.bulletButtonSeletor);
+    this.activeIndex = 0;
+    console.log(settings);
 
     rootElement
-      .on('click', nextButtonElement, () => {
-        this.next();
-      })
       .on('click', prevButtonElement, () => {
         this.prev();
+      })
+      .on('click', nextButtonElement, () => {
+        this.next();
       })
       .on('click', bulletButtonElement, () => {
         this.motion();
@@ -37,6 +39,9 @@ class Slider {
   prev() {}
   next() {}
   motion() {}
+  slideTo() {}
 }
 
-const slider1 = new Slider({rootSelector: '#slider1'});
+$(() => {
+  const slider1 = new Slider();
+});
