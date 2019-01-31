@@ -22,7 +22,6 @@ class Slider {
       prevButton: rootElement.find(settings.prevButtonSelector),
       nextButton: rootElement.find(settings.nextButtonSelector),
       currentIndex: settings.activeIndex,
-      settings: settings,
       currentItem: $(settings.activeItemSelector),
       min: settings.indexMinNumber,
       max: settings.indexMaxNumber,
