@@ -30,7 +30,7 @@
 			clear: both;
 		}
 	}
-	
+
 	&-item {
 		float: left;
 		position: absolute;
@@ -42,7 +42,7 @@
 		justify-content: center;
 		color: #000;
 	}
-	
+
 	&-button {
 		width: 30px;
 		height: 30px;
@@ -66,9 +66,17 @@
 			width: 4px;
 			height: 13px;
 			background-color: #000;
-		}
+    }
+    &.active {
+      &:after {
+        background-color: rgba(0, 0, 0, .3)
+      }
+      &:before {
+        background-color: rgba(0, 0, 0, .3)
+      }
+    }
 	}
-	
+
 	&-button--prev {
 		left: 0;
 		&:after {
@@ -82,7 +90,7 @@
 			transform: skew(-41deg,0deg);
 		}
 	}
-	
+
 	&-button--next {
 		right: 0;
 		&:after {
