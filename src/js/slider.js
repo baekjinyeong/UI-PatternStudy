@@ -80,4 +80,13 @@ class Slider {
   }
 }
 
-const slider = new Slider();
+const slider1 = new Slider('slider', {
+  rootSelector: '#slider1'
+});
+
+const slider2 = new Slider('.slider', {
+  rootSelector: '#slider2'
+});
+
+console.log(slider1, slider2);
+
