@@ -31,6 +31,7 @@ class Slider {
     if (settings.direction === 'horizontal') {
       this.currentItem.css('left', '100%');
       this.currentItem.eq(this.currentIndex).css('left', 0);
+      this.prevButton.addClass(settings.activeClass);
     }
 
     this.prevButton.on('click', () => {
@@ -63,12 +64,14 @@ class Slider {
     if (this.currentIndex < newIdx) {
       this.currentItem.eq(newIdx).css('left', 0);
       this.currentItem.eq(this.currentIndex).css('left', '-100%');
+
       if (newIdx === this.max) {
         this.nextButton.addClass(this.activeClass);
       }
     } else if (this.currentIndex > newIdx) {
       this.currentItem.eq(newIdx).css('left', 0);
       this.currentItem.eq(this.currentIndex).css('left', '100%');
+
       if (newIdx === this.min) {
         this.prevButton.addClass(this.activeClass);
       }
