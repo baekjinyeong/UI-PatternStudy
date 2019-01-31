@@ -21,8 +21,8 @@ class Slider {
       settings,
       prevButton: rootElement.find(settings.prevButtonSelector),
       nextButton: rootElement.find(settings.nextButtonSelector),
+      currentItem: rootElement.find(settings.activeItemSelector),
       currentIndex: settings.activeIndex,
-      currentItem: $(settings.activeItemSelector),
       min: settings.indexMinNumber,
       max: settings.indexMaxNumber,
       activeClass: settings.activeClass
@@ -42,13 +42,21 @@ class Slider {
   }
 
   prev() {
-    this.motion(this.currentIndex - 1);
-    this.currentIndex--;
+    if (this.currentIndex <= this.min) {
+      this.currentIndex = this.min;
+    } else {
+      this.motion(this.currentIndex - 1);
+      this.currentIndex--;
+    }
   }
 
   next() {
-    this.motion(this.currentIndex + 1);
-    this.currentIndex++;
+    if (this.currentIndex >= this.max) {
+      this.currentIndex = this.max;
+    } else {
+      this.motion(this.currentIndex + 1);
+      this.currentIndex++;
+    }
   }
 
   motion(newIdx) {
