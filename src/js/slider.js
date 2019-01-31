@@ -9,7 +9,8 @@ const defaluts = {
   prevButtonSelector: '.slider-button--prev',
   nextButtonSelector: '.slider-button--next',
   indexMinNumber: 0,
-  indexMaxNumber: 4
+  indexMaxNumber: 4,
+  activeRolling: false
 };
 
 class Slider {
@@ -25,7 +26,8 @@ class Slider {
       currentIndex: settings.activeIndex,
       min: settings.indexMinNumber,
       max: settings.indexMaxNumber,
-      activeClass: settings.activeClass
+      activeClass: settings.activeClass,
+      rollingItem: settings.activeRolling
     });
 
     if (settings.direction === 'horizontal') {
@@ -78,14 +80,21 @@ class Slider {
     }
     console.log(this.currentIndex, newIdx, this.max, this.min);
   }
+
+  rolling() {
+    if (this.rollingItem === true) {
+      console.log('rollings true')
+    }
+  }
 }
 
-const slider1 = new Slider('slider', {
+const slider1 = new Slider({
   rootSelector: '#slider1'
 });
 
-const slider2 = new Slider('.slider', {
-  rootSelector: '#slider2'
+const slider2 = new Slider({
+  rootSelector: '#slider2',
+  activeRolling: true
 });
 
 console.log(slider1, slider2);
