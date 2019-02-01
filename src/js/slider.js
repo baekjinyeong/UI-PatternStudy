@@ -8,8 +8,6 @@ const defaluts = {
   activeItemSelector: '.slider-item',
   prevButtonSelector: '.slider-button--prev',
   nextButtonSelector: '.slider-button--next',
-  indexMinNumber: 0,
-  indexMaxNumber: 4,
   activeRolling: false
 };
 
@@ -24,8 +22,8 @@ class Slider {
       nextButton: rootElement.find(settings.nextButtonSelector),
       currentItem: rootElement.find(settings.activeItemSelector),
       currentIndex: settings.activeIndex,
-      min: settings.indexMinNumber,
-      max: settings.indexMaxNumber,
+      min: 0,
+      max: rootElement.find(settings.activeItemSelector).length - 1,
       activeClass: settings.activeClass,
       rollingItem: settings.activeRolling
     });
@@ -66,6 +64,7 @@ class Slider {
     if (this.currentIndex < newIdx) {
       this.currentItem.eq(newIdx).css('left', 0);
       this.currentItem.eq(this.currentIndex).css('left', '-100%');
+      this.activeButton();
 
       if (newIdx === this.max) {
         this.nextButton.addClass(this.activeClass);
@@ -73,6 +72,7 @@ class Slider {
     } else if (this.currentIndex > newIdx) {
       this.currentItem.eq(newIdx).css('left', 0);
       this.currentItem.eq(this.currentIndex).css('left', '100%');
+      this.activeButton();
 
       if (newIdx === this.min) {
         this.prevButton.addClass(this.activeClass);
@@ -81,9 +81,11 @@ class Slider {
     console.log(this.currentIndex, newIdx, this.max, this.min);
   }
 
-  rolling() {
-    if (this.rollingItem === true) {
-      console.log('rollings true')
+  activeButton() {
+    if (this.prevButton.hasClass(this.activeClass)) {
+      this.prevButton.removeClass(this.activeClass);
+    } else {
+      this.nextButton.removeClass(this.activeClass);
     }
   }
 }
@@ -98,4 +100,3 @@ const slider2 = new Slider({
 });
 
 console.log(slider1, slider2);
-
