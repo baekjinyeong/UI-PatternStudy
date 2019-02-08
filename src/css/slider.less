@@ -104,9 +104,9 @@
 		}
 	}
 
-	&-button-bullet {
+	&-pagination {
 		text-align: center;
-		.bullet-item {
+		.pagination-bullet {
 			display: inline-block;
 			width: 7px;
 			height: 7px;
@@ -115,7 +115,10 @@
 			cursor: pointer;
 			&.active {
 				background-color: #ac0000;
-			}
+      }
+      & ~ .pagination-bullet {
+        margin-left: 5px;
+      }
 		}
 		> span {
 			font-size: 0;

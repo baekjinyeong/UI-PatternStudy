@@ -1,5 +1,55 @@
 import $ from 'jquery';
 
+// pagination 옵션 값
+const paginationDefaults = {
+  el: '.pagination',
+  type: 'bullets',
+  rootSelector: '.slider-pagination',
+  bulletsElemenets: 'span',
+  bulletsActiveClass: 'active',
+  bulletBulid: 5
+};
+
+export default class Pagination {
+  constructor(option) {
+    /*
+      1. slider 갯수만큼 블릿 생성한다.
+      2. slider의 currentIndex 값을 받아온다.
+      3. currentIndex 값에 active 클래스 추가한다.
+      4. 해당 블릿 클릭 시 currentIndex 로 이동한다.
+    */
+    const settings = Object.assign({}, paginationDefaults, option);
+    const rootElement = $(settings.rootSelector);
+
+    const elements = Object.assign({},{
+        bulletsSpan: rootElement.find(settings.bulletsElemenets)
+    });
+
+    const state = Object.assign({},{
+        bulletsNum: settings.bulletBulid,
+        activeClass: settings.bulletsActiveClass
+    });
+
+    Object.assign(this, {
+      settings,
+      elements,
+      state
+    });
+
+    // 블릿 생성하기
+    /* slider 갯수만큼 for문 돌려서 bullets 태그 추가해준다. */
+    if (settings.type === 'bullets') {
+      let date = [];
+      const print = document.querySelector('.slider-pagination');
+      for (let i = 0; i < state.bulletsNum; i++) {
+        date.push(`<span class="pagination-bullet"><span>${i}</span></span>`);
+      }
+      print.innerHTML = date.join('');
+    }
+  }
+}
+
+// slider 옵션 값
 const defaluts = {
   direction: 'horizontal',
   rootSelector: '.slider',
@@ -31,14 +81,18 @@ class Slider {
         rollingItem: settings.loop
     });
 
+    const pagination = new Pagination();
+
     settings.max = rootElement.find(settings.activeItemSelector).length - 1;
 
     Object.assign(this, {
       settings,
       elements,
-      state
+      state,
+      pagination
     });
 
+    // 초기 화면 생성
     if (settings.direction === 'horizontal') {
       elements.currentItem.css('left', '100%');
       elements.currentItem.eq(state.currentIndex).css('left', 0);
@@ -48,9 +102,16 @@ class Slider {
       }
     }
 
+    if (settings.pagination) {
+      pagination;
+    }
+
+    // 이전 버튼 클릭
     elements.prevButton.on('click', () => {
       this.prev();
     });
+
+    // 다음 버튼 클릭
     elements.nextButton.on('click', () => {
       this.next();
     });
@@ -92,6 +153,7 @@ class Slider {
     }
   }
 
+  // 슬라이드 이동 animate
   motion(newIdx) {
     let { currentIndex, activeClass } = this.state;
     let { min, max, loop } = this.settings;
