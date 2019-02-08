@@ -10,7 +10,8 @@ const defaluts = {
   nextButtonSelector: '.slider-button--next',
   loop: false,
   min: 0,
-  max: 0
+  max: 0,
+  pagination: false
 };
 
 class Slider {
@@ -69,14 +70,13 @@ class Slider {
       this.state.currentIndex--;
       this.motion(currentIndex);
     } else {
-      currentIndex = Math.min(currentIndex, min);
+      this.state.currentIndex = Math.min(currentIndex, min);
     }
-    console.log(currentIndex);
   }
 
   next() {
-    let { max, min, loop } = this.settings;
-    let { currentIndex } = this.state;
+    const { max, min, loop } = this.settings;
+    const { currentIndex } = this.state;
 
     if (currentIndex === max && loop) {
       this.state.currentIndex = min;
@@ -88,9 +88,8 @@ class Slider {
       this.state.currentIndex++;
       this.motion(currentIndex);
     } else {
-      currentIndex = Math.max(currentIndex, max);
+      this.state.currentIndex = Math.max(currentIndex, max);
     }
-    console.log(currentIndex);
   }
 
   motion(newIdx) {
@@ -144,4 +143,8 @@ const slider2 = new Slider({
   loop: true
 });
 
-// console.log(slider1, slider2);
+const slider3 = new Slider({
+  rootSelector: '#slider3',
+  loop: true,
+  pagination: true
+});
