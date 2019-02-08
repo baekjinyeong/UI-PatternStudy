@@ -8,84 +8,129 @@ const defaluts = {
   activeItemSelector: '.slider-item',
   prevButtonSelector: '.slider-button--prev',
   nextButtonSelector: '.slider-button--next',
-  activeRolling: false
+  loop: false,
+  min: 0,
+  max: 0
 };
 
 class Slider {
   constructor(option) {
-    const settings = $.extend({}, defaluts, option);
+    const settings = Object.assign({}, defaluts, option);
     const rootElement = $(settings.rootSelector);
 
-    $.extend(this, {
+    const elements = Object.assign({}, {
+        prevButton: rootElement.find(settings.prevButtonSelector),
+        nextButton: rootElement.find(settings.nextButtonSelector),
+        currentItem: rootElement.find(settings.activeItemSelector)
+    });
+
+    const state = Object.assign({}, {
+        currentIndex: settings.activeIndex,
+        activeClass: settings.activeClass,
+        rollingItem: settings.loop
+    });
+
+    settings.max = rootElement.find(settings.activeItemSelector).length - 1;
+
+    Object.assign(this, {
       settings,
-      prevButton: rootElement.find(settings.prevButtonSelector),
-      nextButton: rootElement.find(settings.nextButtonSelector),
-      currentItem: rootElement.find(settings.activeItemSelector),
-      currentIndex: settings.activeIndex,
-      min: 0,
-      max: rootElement.find(settings.activeItemSelector).length - 1,
-      activeClass: settings.activeClass,
-      rollingItem: settings.activeRolling
+      elements,
+      state
     });
 
     if (settings.direction === 'horizontal') {
-      this.currentItem.css('left', '100%');
-      this.currentItem.eq(this.currentIndex).css('left', 0);
-      this.prevButton.addClass(settings.activeClass);
+      elements.currentItem.css('left', '100%');
+      elements.currentItem.eq(state.currentIndex).css('left', 0);
+      elements.prevButton.addClass(state.activeClass);
+      if (settings.loop) {
+        elements.prevButton.removeClass(state.activeClass);
+      }
     }
 
-    this.prevButton.on('click', () => {
+    elements.prevButton.on('click', () => {
       this.prev();
     });
-    this.nextButton.on('click', () => {
+    elements.nextButton.on('click', () => {
       this.next();
     });
   }
 
   prev() {
-    if (this.currentIndex <= this.min) {
-      this.currentIndex = this.min;
-    } else {
-      this.motion(this.currentIndex - 1);
-      this.currentIndex--;
+    let { min, max, loop } = this.settings;
+    let { currentIndex } = this.state;
+
+    if (currentIndex === min && loop) {
+      this.state.currentIndex = max;
+      this.motion(currentIndex);
+      return false;
     }
+
+    if (currentIndex > min) {
+      this.state.currentIndex--;
+      this.motion(currentIndex);
+    } else {
+      currentIndex = Math.min(currentIndex, min);
+    }
+    console.log(currentIndex);
   }
 
   next() {
-    if (this.currentIndex >= this.max) {
-      this.currentIndex = this.max;
-    } else {
-      this.motion(this.currentIndex + 1);
-      this.currentIndex++;
+    let { max, min, loop } = this.settings;
+    let { currentIndex } = this.state;
+
+    if (currentIndex === max && loop) {
+      this.state.currentIndex = min;
+      this.motion(currentIndex);
+      return false;
     }
+
+    if (currentIndex < max) {
+      this.state.currentIndex++;
+      this.motion(currentIndex);
+    } else {
+      currentIndex = Math.max(currentIndex, max);
+    }
+    console.log(currentIndex);
   }
 
   motion(newIdx) {
-    if (this.currentIndex < newIdx) {
-      this.currentItem.eq(newIdx).css('left', 0);
-      this.currentItem.eq(this.currentIndex).css('left', '-100%');
+    let { currentIndex, activeClass } = this.state;
+    let { min, max, loop } = this.settings;
+    const { currentItem, nextButton, prevButton } = this.elements;
+
+    if (currentIndex < newIdx) {
+      currentItem.eq(currentIndex).css('left', 0);
+      currentItem.eq(newIdx).css('left', '-100%');
       this.activeButton();
 
-      if (newIdx === this.max) {
-        this.nextButton.addClass(this.activeClass);
+      if (currentIndex === min) {
+        prevButton.addClass(activeClass);
+        if (loop) {
+          prevButton.removeClass(activeClass);
+        }
       }
-    } else if (this.currentIndex > newIdx) {
-      this.currentItem.eq(newIdx).css('left', 0);
-      this.currentItem.eq(this.currentIndex).css('left', '100%');
+    } else if (currentIndex > newIdx) {
+      currentItem.eq(currentIndex).css('left', 0);
+      currentItem.eq(newIdx).css('left', '100%');
       this.activeButton();
 
-      if (newIdx === this.min) {
-        this.prevButton.addClass(this.activeClass);
+      if (currentIndex === max) {
+        nextButton.addClass(activeClass);
+        if (loop) {
+          nextButton.removeClass(activeClass);
+        }
       }
     }
-    console.log(this.currentIndex, newIdx, this.max, this.min);
   }
 
   activeButton() {
-    if (this.prevButton.hasClass(this.activeClass)) {
-      this.prevButton.removeClass(this.activeClass);
+    const { prevButton, nextButton } = this.elements;
+    const { activeClass } = this.state;
+
+    if (prevButton.hasClass(activeClass)) {
+      prevButton.removeClass(activeClass);
     } else {
-      this.nextButton.removeClass(this.activeClass);
+      nextButton.removeClass(activeClass);
     }
   }
 }
@@ -96,7 +141,7 @@ const slider1 = new Slider({
 
 const slider2 = new Slider({
   rootSelector: '#slider2',
-  activeRolling: true
+  loop: true
 });
 
-console.log(slider1, slider2);
+// console.log(slider1, slider2);
