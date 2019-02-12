@@ -1,7 +1,6 @@
 import $ from 'jquery';
 
 // ================================== pagination ==================================
-
 // pagination 옵션 값
 const paginationDefaults = {
   type: 'bullets',
@@ -20,7 +19,7 @@ export default class Pagination {
       3. currentIndex 값에 active 클래스 추가한다.
       4. 해당 블릿 클릭 시 currentIndex 로 이동한다.
     */
-    const settings = Object.assign({}, paginationDefaults, option);
+    const settings = Object.assign({}, paginationDefaults, option); // 옵션 변경을 위한 설정
     const rootElement = $(settings.rootSelector);
 
     const elements = Object.assign({},{
@@ -51,23 +50,22 @@ export default class Pagination {
         }
       }
       rootElement.innerHTML = date.join('');
-      this.bullets();
+      // this.bullets();
     }
   }
 
   // 설정 : 블릿 (해당 currentIndex에 acitveClass 추가)
   bullets() {
     const { paginationNumber, bulletsCurrentIndex, activeClass } = this.state;
-    const { bulletItem } = this.elements;
     const rootElement = document.querySelector('.slider-pagination');
 
     if (paginationNumber > 0) {
+
     }
   }
 }
 
 // ================================== slider ==================================
-
 // slider 옵션 값
 const defaluts = {
   direction: 'horizontal',
@@ -85,7 +83,7 @@ const defaluts = {
 
 class Slider {
   constructor(option) {
-    const settings = Object.assign({}, defaluts, option);
+    const settings = Object.assign({}, defaluts, option); // 옵션 변경을 위한 설정
     const rootElement = $(settings.rootSelector);
 
     const elements = Object.assign({}, {
@@ -105,8 +103,8 @@ class Slider {
       bulletBulid: elements.currentItem.length,
       bulletActiveIndex: state.currentIndex
     });
-    console.log(pagination.bulletActiveIndex)
 
+    // 최대값 설정
     settings.max = rootElement.find(settings.activeItemSelector).length - 1;
 
     Object.assign(this, {
