@@ -2,12 +2,11 @@ import $ from 'jquery';
 
 // pagination 옵션 값
 const paginationDefaults = {
-  el: '.pagination',
   type: 'bullets',
   rootSelector: '.slider-pagination',
-  bulletsElemenets: 'span',
+  bulletSelector: '.pagination-bullet',
   bulletsActiveClass: 'active',
-  bulletBulid: 5
+  bulletBulid: 0
 };
 
 export default class Pagination {
@@ -22,13 +21,16 @@ export default class Pagination {
     const rootElement = $(settings.rootSelector);
 
     const elements = Object.assign({},{
-        bulletsSpan: rootElement.find(settings.bulletsElemenets)
+        bulletItem: rootElement.find(settings.bulletSelector)
     });
 
     const state = Object.assign({},{
-        bulletsNum: settings.bulletBulid,
+        paginationNumber: settings.bulletBulid,
         activeClass: settings.bulletsActiveClass
     });
+
+    // pagination 초기 설정
+    // state.paginationNumber = 5;
 
     Object.assign(this, {
       settings,
@@ -41,8 +43,12 @@ export default class Pagination {
     if (settings.type === 'bullets') {
       let date = [];
       const print = document.querySelector('.slider-pagination');
-      for (let i = 0; i < state.bulletsNum; i++) {
-        date.push(`<span class="pagination-bullet"><span>${i}</span></span>`);
+      for (let i = 0; i < state.paginationNumber; i++) {
+        if (i === 0) {
+          date.push(`<span class="pagination-bullet active">${i}</span>`);
+        } else {
+          date.push(`<span class="pagination-bullet">${i}</span>`);
+        }
       }
       print.innerHTML = date.join('');
     }
@@ -81,7 +87,10 @@ class Slider {
         rollingItem: settings.loop
     });
 
-    const pagination = new Pagination();
+    // pagination 초기값 세팅
+    const pagination = new Pagination({
+      bulletBulid: elements.currentItem.length
+    });
 
     settings.max = rootElement.find(settings.activeItemSelector).length - 1;
 
