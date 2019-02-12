@@ -8,7 +8,8 @@ const paginationDefaults = {
   rootSelector: '.slider-pagination',
   bulletSelector: '.pagination-bullet',
   bulletsActiveClass: 'active',
-  bulletBulid: 0
+  bulletBulid: 0,
+  bulletActiveIndex: 0
 };
 
 export default class Pagination {
@@ -28,7 +29,8 @@ export default class Pagination {
 
     const state = Object.assign({},{
         paginationNumber: settings.bulletBulid,
-        activeClass: settings.bulletsActiveClass
+        activeClass: settings.bulletsActiveClass,
+        bulletsCurrentIndex: settings.bulletActiveIndex
     });
 
     Object.assign(this, {
@@ -40,7 +42,7 @@ export default class Pagination {
     // 블릿 생성하기
     if (settings.type === 'bullets') {
       let date = [];
-      const print = document.querySelector('.slider-pagination');
+      const rootElement = document.querySelector('.slider-pagination');
       for (let i = 0; i < state.paginationNumber; i++) {
         if (i === 0) {
           date.push(`<span class="pagination-bullet active">${i}</span>`);
@@ -48,7 +50,18 @@ export default class Pagination {
           date.push(`<span class="pagination-bullet">${i}</span>`);
         }
       }
-      print.innerHTML = date.join('');
+      rootElement.innerHTML = date.join('');
+      this.bullets();
+    }
+  }
+
+  // 설정 : 블릿 (해당 currentIndex에 acitveClass 추가)
+  bullets() {
+    const { paginationNumber, bulletsCurrentIndex, activeClass } = this.state;
+    const { bulletItem } = this.elements;
+    const rootElement = document.querySelector('.slider-pagination');
+
+    if (paginationNumber > 0) {
     }
   }
 }
@@ -89,8 +102,10 @@ class Slider {
 
     // pagination 초기값 세팅
     const pagination = new Pagination({
-      bulletBulid: elements.currentItem.length
+      bulletBulid: elements.currentItem.length,
+      bulletActiveIndex: state.currentIndex
     });
+    console.log(pagination.bulletActiveIndex)
 
     settings.max = rootElement.find(settings.activeItemSelector).length - 1;
 
@@ -111,6 +126,7 @@ class Slider {
       }
     }
 
+    // 타입 : pagination
     if (settings.pagination) {
       pagination;
     }
@@ -126,6 +142,7 @@ class Slider {
     });
   }
 
+  // 설정 : 이전
   prev() {
     let { min, max, loop } = this.settings;
     let { currentIndex } = this.state;
@@ -144,6 +161,7 @@ class Slider {
     }
   }
 
+  // 설정 : 다음
   next() {
     const { max, min, loop } = this.settings;
     const { currentIndex } = this.state;
@@ -162,7 +180,7 @@ class Slider {
     }
   }
 
-  // 슬라이드 이동 animate
+  // 설정 : 슬라이드 이동 animate
   motion(newIdx) {
     let { currentIndex, activeClass } = this.state;
     let { min, max, loop } = this.settings;
@@ -193,6 +211,7 @@ class Slider {
     }
   }
 
+  // 설정 : 화살표 버튼 활성화
   activeButton() {
     const { prevButton, nextButton } = this.elements;
     const { activeClass } = this.state;
@@ -205,15 +224,18 @@ class Slider {
   }
 }
 
+// type : defaults
 const slider1 = new Slider({
   rootSelector: '#slider1'
 });
 
+// type : loop
 const slider2 = new Slider({
   rootSelector: '#slider2',
   loop: true
 });
 
+// type : pagination
 const slider3 = new Slider({
   rootSelector: '#slider3',
   loop: true,
