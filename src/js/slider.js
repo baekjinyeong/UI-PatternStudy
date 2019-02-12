@@ -1,5 +1,7 @@
 import $ from 'jquery';
 
+// ================================== pagination ==================================
+
 // pagination 옵션 값
 const paginationDefaults = {
   type: 'bullets',
@@ -29,9 +31,6 @@ export default class Pagination {
         activeClass: settings.bulletsActiveClass
     });
 
-    // pagination 초기 설정
-    // state.paginationNumber = 5;
-
     Object.assign(this, {
       settings,
       elements,
@@ -39,7 +38,6 @@ export default class Pagination {
     });
 
     // 블릿 생성하기
-    /* slider 갯수만큼 for문 돌려서 bullets 태그 추가해준다. */
     if (settings.type === 'bullets') {
       let date = [];
       const print = document.querySelector('.slider-pagination');
@@ -54,6 +52,8 @@ export default class Pagination {
     }
   }
 }
+
+// ================================== slider ==================================
 
 // slider 옵션 값
 const defaluts = {
