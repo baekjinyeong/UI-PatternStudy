@@ -8,7 +8,8 @@ const paginationDefaults = {
   bulletSelector: '.pagination-bullet',
   bulletsActiveClass: 'active',
   bulletBulid: 0,
-  bulletActiveIndex: 0
+  bulletActiveIndex: 0,
+  clickable: false // 블릿 클릭 가능여부
 };
 
 export default class Pagination {
@@ -38,7 +39,7 @@ export default class Pagination {
       state
     });
 
-    // 블릿 생성하기
+    // 블릿 : 생성
     if (settings.type === 'bullets') {
       let date = [];
       const rootElement = document.querySelector('.slider-pagination');
@@ -50,16 +51,28 @@ export default class Pagination {
         }
       }
       rootElement.innerHTML = date.join('');
-      // this.bullets();
     }
+
+    // 블릿 : 클릭
+    $('.pagination-bullet').on('click', () => {
+      console.log('aaa');
+    });
+    console.log(elements.bulletItem);
   }
 
   // 설정 : 블릿 (해당 currentIndex에 acitveClass 추가)
   bullets() {
     const { paginationNumber, bulletsCurrentIndex, activeClass } = this.state;
+    const { clickable } = this.settings;
     const rootElement = document.querySelector('.slider-pagination');
+    const bulletItem = $(rootElement).find('.pagination-bullet');
 
     if (paginationNumber > 0) {
+      bulletItem.eq(bulletsCurrentIndex).addClass(activeClass);
+      console.log(bulletsCurrentIndex + 'aaa');
+    }
+
+    if (clickable) {
 
     }
   }
@@ -98,7 +111,7 @@ class Slider {
         rollingItem: settings.loop
     });
 
-    // pagination 초기값 세팅
+    // pagination
     const pagination = new Pagination({
       bulletBulid: elements.currentItem.length,
       bulletActiveIndex: state.currentIndex
@@ -124,6 +137,7 @@ class Slider {
       }
     }
 
+
     // 타입 : pagination
     if (settings.pagination) {
       pagination;
@@ -137,6 +151,9 @@ class Slider {
     // 다음 버튼 클릭
     elements.nextButton.on('click', () => {
       this.next();
+      pagination.bulletActiveIndex = state.currentIndex;
+      pagination.bullets();
+      console.log(pagination.bulletActiveIndex)
     });
   }
 
