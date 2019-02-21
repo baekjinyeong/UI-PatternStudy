@@ -1,82 +1,5 @@
 import $ from 'jquery';
-
-// ================================== pagination ==================================
-// pagination 옵션 값
-const paginationDefaults = {
-  type: 'bullets',
-  rootSelector: '.slider-pagination',
-  bulletSelector: '.pagination-bullet',
-  bulletsActiveClass: 'active',
-  bulletBulid: 0,
-  bulletActiveIndex: 0,
-  clickable: false // 블릿 클릭 가능여부
-};
-
-export default class Pagination {
-  constructor(option) {
-    /*
-      1. slider 갯수만큼 블릿 생성한다.
-      2. slider의 currentIndex 값을 받아온다.
-      3. currentIndex 값에 active 클래스 추가한다.
-      4. 해당 블릿 클릭 시 currentIndex 로 이동한다.
-    */
-    const settings = Object.assign({}, paginationDefaults, option); // 옵션 변경을 위한 설정
-    const rootElement = $(settings.rootSelector);
-
-    const elements = Object.assign({},{
-        bulletItem: rootElement.find(settings.bulletSelector)
-    });
-
-    const state = Object.assign({},{
-        paginationNumber: settings.bulletBulid,
-        activeClass: settings.bulletsActiveClass,
-        bulletsCurrentIndex: settings.bulletActiveIndex
-    });
-
-    Object.assign(this, {
-      settings,
-      elements,
-      state
-    });
-
-    // 블릿 : 생성
-    if (settings.type === 'bullets') {
-      let date = [];
-      const rootElement = document.querySelector('.slider-pagination');
-      for (let i = 0; i < state.paginationNumber; i++) {
-        if (i === 0) {
-          date.push(`<span class="pagination-bullet active">${i}</span>`);
-        } else {
-          date.push(`<span class="pagination-bullet">${i}</span>`);
-        }
-      }
-      rootElement.innerHTML = date.join('');
-    }
-
-    // 블릿 : 클릭
-    $('.pagination-bullet').on('click', () => {
-      console.log('aaa');
-    });
-    console.log(elements.bulletItem);
-  }
-
-  // 설정 : 블릿 (해당 currentIndex에 acitveClass 추가)
-  bullets() {
-    const { paginationNumber, bulletsCurrentIndex, activeClass } = this.state;
-    const { clickable } = this.settings;
-    const rootElement = document.querySelector('.slider-pagination');
-    const bulletItem = $(rootElement).find('.pagination-bullet');
-
-    if (paginationNumber > 0) {
-      bulletItem.eq(bulletsCurrentIndex).addClass(activeClass);
-      console.log(bulletsCurrentIndex + 'aaa');
-    }
-
-    if (clickable) {
-
-    }
-  }
-}
+import Pagination from './components/pagination';
 
 // ================================== slider ==================================
 // slider 옵션 값
@@ -113,8 +36,10 @@ class Slider {
 
     // pagination
     const pagination = new Pagination({
+      item: elements.currentItem,
       bulletBulid: elements.currentItem.length,
-      bulletActiveIndex: state.currentIndex
+      bulletActiveIndex: state.currentIndex,
+      clickable: true
     });
 
     // 최대값 설정
@@ -137,7 +62,6 @@ class Slider {
       }
     }
 
-
     // 타입 : pagination
     if (settings.pagination) {
       pagination;
@@ -146,14 +70,13 @@ class Slider {
     // 이전 버튼 클릭
     elements.prevButton.on('click', () => {
       this.prev();
+      pagination.bullets(state.currentIndex);
     });
 
     // 다음 버튼 클릭
     elements.nextButton.on('click', () => {
       this.next();
-      pagination.bulletActiveIndex = state.currentIndex;
-      pagination.bullets();
-      console.log(pagination.bulletActiveIndex)
+      pagination.bullets(state.currentIndex);
     });
   }
 
