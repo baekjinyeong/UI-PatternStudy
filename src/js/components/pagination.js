@@ -9,18 +9,11 @@ const paginationDefaults = {
   bulletsActiveClass: 'active',
   bulletBulid: 0,
   bulletActiveIndex: 0,
-  clickable: false, // 블릿 클릭 가능여부
-  item: ''
+  clickable: false // 블릿 클릭 가능여부
 };
 
 export default class Pagination {
   constructor(option) {
-    /*
-      1. slider 갯수만큼 블릿 생성한다.
-      2. slider의 currentIndex 값을 받아온다.
-      3. currentIndex 값에 active 클래스 추가한다.
-      4. 해당 블릿 클릭 시 currentIndex 로 이동한다.
-    */
     const settings = Object.assign({}, paginationDefaults, option); // 옵션 변경을 위한 설정
     const rootElement = $(settings.rootSelector);
 
@@ -61,7 +54,6 @@ export default class Pagination {
         const target = $(e.target);
         const index = target.index();
         target.addClass(state.activeClass).siblings().removeClass(state.activeClass);
-
         this.bulletMotion(index);
       });
     }
@@ -79,10 +71,10 @@ export default class Pagination {
     }
   }
 
+  // 설정 : 모션
   bulletMotion(index) {
-    const { listItem } = this.state;
     this.state.bulletsCurrentIndex = index;
 
-    listItem.eq(index).css('left', 0);
+    this.settings.changeSlide(index);
   }
 }

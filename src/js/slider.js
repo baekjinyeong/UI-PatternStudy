@@ -39,7 +39,8 @@ class Slider {
       item: elements.currentItem,
       bulletBulid: elements.currentItem.length,
       bulletActiveIndex: state.currentIndex,
-      clickable: true
+      clickable: true,
+      changeSlide: this.setSlide.bind(this) // this 강제로 바꾸기 (.bind(this) , .call(this) , .apply(this))
     });
 
     // 최대값 설정
@@ -62,21 +63,20 @@ class Slider {
       }
     }
 
-    // 타입 : pagination
-    if (settings.pagination) {
-      pagination;
-    }
-
     // 이전 버튼 클릭
     elements.prevButton.on('click', () => {
       this.prev();
-      pagination.bullets(state.currentIndex);
+      if (settings.pagination) {
+        pagination.bullets(state.currentIndex);
+      }
     });
 
     // 다음 버튼 클릭
     elements.nextButton.on('click', () => {
       this.next();
-      pagination.bullets(state.currentIndex);
+      if (settings.pagination) {
+        pagination.bullets(state.currentIndex);
+      }
     });
   }
 
@@ -116,6 +116,17 @@ class Slider {
     } else {
       this.state.currentIndex = Math.max(currentIndex, max);
     }
+  }
+
+  // pagination index 값 전달받기
+  setSlide(index) {
+    // 현재 페이지 index 값과 클릭 시 index 값을 비교...해야는데....
+    // index : 클릭한 페이지의 index 값
+    // currentIndex : 현재 페이지 index 값
+    const { currentIndex } = this.state;
+    // this.state.currentIndex = ...?
+    this.motion(index);
+    console.log(index, this.state.currentIndex,currentIndex);
   }
 
   // 설정 : 슬라이드 이동 animate
