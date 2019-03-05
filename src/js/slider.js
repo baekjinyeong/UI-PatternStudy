@@ -124,9 +124,18 @@ class Slider {
     // index : 클릭한 페이지의 index 값
     // currentIndex : 현재 페이지 index 값
     const { currentIndex } = this.state;
-    // this.state.currentIndex = ...?
-    this.motion(index);
-    console.log(index, this.state.currentIndex,currentIndex);
+    const { currentItem } = this.elements;
+
+    this.state.currentIndex = index;
+
+    if (currentIndex < index) {
+      index = currentItem.eq(this.state.currentIndex).index();
+      this.motion(index);
+    } else if (currentIndex > index) {
+      index = currentItem.eq(this.state.currentIndex).index();
+      this.motion(currentIndex);
+    }
+    console.log(index, this.state.currentIndex);
   }
 
   // 설정 : 슬라이드 이동 animate
@@ -135,8 +144,9 @@ class Slider {
     let { min, max, loop } = this.settings;
     const { currentItem, nextButton, prevButton } = this.elements;
 
+    currentItem.eq(currentIndex).css('left', 0);
+
     if (currentIndex < newIdx) {
-      currentItem.eq(currentIndex).css('left', 0);
       currentItem.eq(newIdx).css('left', '-100%');
       this.activeButton();
 
@@ -147,7 +157,6 @@ class Slider {
         }
       }
     } else if (currentIndex > newIdx) {
-      currentItem.eq(currentIndex).css('left', 0);
       currentItem.eq(newIdx).css('left', '100%');
       this.activeButton();
 
