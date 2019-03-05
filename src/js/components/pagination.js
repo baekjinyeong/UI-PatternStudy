@@ -34,7 +34,7 @@ export default class Pagination {
       state
     });
 
-    // 블릿 : 생성
+    // pagination : 생성
     if (settings.type === 'bullets') {
       let date = [];
       const rootElement = document.querySelector('.slider-pagination');
@@ -48,7 +48,7 @@ export default class Pagination {
       rootElement.innerHTML = date.join('');
     }
 
-    // 블릿 : 클릭
+    // pagination : 클릭
     if (settings.clickable) {
       $('.pagination-bullet').on('click', e => {
         const target = $(e.target);
@@ -59,7 +59,7 @@ export default class Pagination {
     }
   }
 
-  // 설정 : 블릿 (해당 currentIndex에 acitveClass 추가)
+  // 설정 : pagination (해당 currentIndex에 acitveClass 추가)
   bullets(index) {
     const { paginationNumber, activeClass } = this.state;
     const rootElement = document.querySelector('.slider-pagination');

@@ -14,7 +14,10 @@ const defaluts = {
   loop: false,
   min: 0,
   max: 0,
-  pagination: false
+  pagination: false,
+  autoplay: {
+    delay: 1000
+  }
 };
 
 class Slider {
@@ -36,7 +39,6 @@ class Slider {
 
     // pagination
     const pagination = new Pagination({
-      item: elements.currentItem,
       bulletBulid: elements.currentItem.length,
       bulletActiveIndex: state.currentIndex,
       clickable: true,
@@ -80,6 +82,22 @@ class Slider {
     });
   }
 
+  // pagination index 값 전달받기
+  setSlide(index) {
+    const { currentIndex } = this.state;
+    const { currentItem } = this.elements;
+
+    this.state.currentIndex = index;
+    console.log(index, this.state.currentIndex, currentIndex);
+
+    if (currentIndex <= index) {
+      index = currentItem.eq(this.state.currentIndex).index();
+      this.motion(index);
+    } else if (currentIndex >= index) {
+      this.motion(currentIndex);
+    }
+  }
+
   // 설정 : 이전
   prev() {
     let { min, max, loop } = this.settings;
@@ -116,26 +134,6 @@ class Slider {
     } else {
       this.state.currentIndex = Math.max(currentIndex, max);
     }
-  }
-
-  // pagination index 값 전달받기
-  setSlide(index) {
-    // 현재 페이지 index 값과 클릭 시 index 값을 비교...해야는데....
-    // index : 클릭한 페이지의 index 값
-    // currentIndex : 현재 페이지 index 값
-    const { currentIndex } = this.state;
-    const { currentItem } = this.elements;
-
-    this.state.currentIndex = index;
-
-    if (currentIndex < index) {
-      index = currentItem.eq(this.state.currentIndex).index();
-      this.motion(index);
-    } else if (currentIndex > index) {
-      index = currentItem.eq(this.state.currentIndex).index();
-      this.motion(currentIndex);
-    }
-    console.log(index, this.state.currentIndex);
   }
 
   // 설정 : 슬라이드 이동 animate
@@ -197,5 +195,7 @@ const slider2 = new Slider({
 const slider3 = new Slider({
   rootSelector: '#slider3',
   loop: true,
-  pagination: true
+  pagination: {
+    rootSelector: '.slider-pagination.pagination1'
+  }
 });
