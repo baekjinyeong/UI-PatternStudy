@@ -55,15 +55,18 @@ class Slider {
       pagination
     });
 
-    // 초기 화면 생성
-    if (settings.direction === 'horizontal') {
-      elements.currentItem.css('left', '100%');
-      elements.currentItem.eq(state.currentIndex).css('left', 0);
+    // 초기세팅
+    const init = () => {
+      if (settings.direction === 'horizontal') {
+        elements.currentItem.css('left', '100%');
+        elements.currentItem.eq(state.currentIndex).css('left', 0);
+      }
       elements.prevButton.addClass(state.activeClass);
       if (settings.loop) {
         elements.prevButton.removeClass(state.activeClass);
       }
-    }
+    };
+    init();
 
     // 이전 버튼 클릭
     elements.prevButton.on('click', () => {
@@ -88,7 +91,6 @@ class Slider {
     const { currentItem } = this.elements;
 
     this.state.currentIndex = index;
-    console.log(index, this.state.currentIndex, currentIndex);
 
     if (currentIndex <= index) {
       index = currentItem.eq(this.state.currentIndex).index();
@@ -98,7 +100,7 @@ class Slider {
     }
   }
 
-  // 설정 : 이전
+  // 옵션 : Previous
   prev() {
     let { min, max, loop } = this.settings;
     let { currentIndex } = this.state;
@@ -117,7 +119,7 @@ class Slider {
     }
   }
 
-  // 설정 : 다음
+  // 옵션 : Next
   next() {
     const { max, min, loop } = this.settings;
     const { currentIndex } = this.state;
@@ -134,6 +136,11 @@ class Slider {
     } else {
       this.state.currentIndex = Math.max(currentIndex, max);
     }
+  }
+
+  // 옵션 : Autoplay
+  autoplay() {
+
   }
 
   // 설정 : 슬라이드 이동 animate
@@ -196,6 +203,9 @@ const slider3 = new Slider({
   rootSelector: '#slider3',
   loop: true,
   pagination: {
-    rootSelector: '.slider-pagination.pagination1'
+    rootSelector: '.slider-pagination'
   }
 });
+
+// type : autoplay
+// const slider4 = new Slider({});
