@@ -10,8 +10,7 @@ const defaults = {
   bulletsActiveClass: 'active',
 
   bulletsLength: 0, // 블릿 전체 갯수
-  bulletActiveIndex: 0, // 블릿 활성화 인덱스
-  clickable: false // 블릿 클릭 가능여부
+  bulletActiveIndex: 0 // 블릿 활성화 인덱스
 };
 
 export default class Pagination {
@@ -50,7 +49,7 @@ export default class Pagination {
     }
 
     // pagination : 클릭
-    if (settings.clickable) {
+    if (settings.bulletClickable) {
       $(rootElement).on('click', e => {
         const target = $(e.target);
         const index = target.index();

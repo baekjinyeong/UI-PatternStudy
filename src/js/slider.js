@@ -22,6 +22,7 @@ const defaluts = {
 
   // Pagination
   pagination: false,
+  clickable: true,
 
   // Auto
   autoPlay: false,
@@ -51,7 +52,7 @@ class Slider {
     const pagination = new Pagination({
       bulletsLength: elements.currentItem.length,
       bulletActiveIndex: state.currentIndex,
-      clickable: true,
+      bulletClickable: settings.clickable,
       slideRootSelector: settings.rootSelector,
       changeSlide: this.setSlide.bind(this) // this 강제로 고정시키기 (.bind(this) , .call(this) , .apply(this))
     });
@@ -238,6 +239,7 @@ const slider4 = new Slider({
   rootSelector: '#slider4',
   loop: true,
   pagination: true,
+  clickable: false,
   autoPlay: true,
-  autoDelay: 1500
+  autoDelay: 3000
 });
