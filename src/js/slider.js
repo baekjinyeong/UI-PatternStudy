@@ -24,10 +24,10 @@ const defaluts = {
   pagination: false,
 
   // Auto
-  autoplay: false,
+  autoPlay: false,
+  autoDelay: 0,
   autoStart: true,
-  autoDirection: 'next',
-  autoDelay: 0
+  autoDirection: 'next'
 };
 
 class Slider {
@@ -53,7 +53,7 @@ class Slider {
       bulletActiveIndex: state.currentIndex,
       clickable: true,
       slideRootSelector: settings.rootSelector,
-      changeSlide: this.setSlide.bind(this) // this 강제로 바꾸기 (.bind(this) , .call(this) , .apply(this))
+      changeSlide: this.setSlide.bind(this) // this 강제로 고정시키기 (.bind(this) , .call(this) , .apply(this))
     });
 
     // 최대값 설정
@@ -101,8 +101,8 @@ class Slider {
     }
 
     // 세팅: autopaly
-    if (settings.autoplay) {
-      this.autoplay();
+    if (settings.autoPlay) {
+      this.autoPlay();
       pagination.bullets(state.currentIndex);
     }
   }
@@ -161,11 +161,13 @@ class Slider {
     }
   }
 
-  // 옵션 : Autoplay
-  autoplay() {
+  // 옵션 : AutoPlay
+  autoPlay() {
     const { autoDelay } = this.settings;
+
     setInterval(() => {
       this.next();
+      this.pagination.bullets(this.state.currentIndex);
     }, autoDelay);
   }
 
@@ -231,11 +233,11 @@ const slider3 = new Slider({
   pagination: true
 });
 
-// type : autoplay
+// type : autoPlay
 const slider4 = new Slider({
   rootSelector: '#slider4',
   loop: true,
   pagination: true,
-  autoplay: true,
-  autoDelay: 1000
+  autoPlay: true,
+  autoDelay: 1500
 });

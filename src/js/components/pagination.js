@@ -4,11 +4,13 @@ import $ from 'jquery';
 // pagination 옵션 값
 const defaults = {
   type: 'bullets',
+
   rootSelectorClass: 'slider-pagination',
   bulletSelectorClass: 'pagination-bullet',
   bulletsActiveClass: 'active',
-  bulletsLength: 0,
-  bulletActiveIndex: 0,
+
+  bulletsLength: 0, // 블릿 전체 갯수
+  bulletActiveIndex: 0, // 블릿 활성화 인덱스
   clickable: false // 블릿 클릭 가능여부
 };
 
