@@ -15,10 +15,11 @@ const paginationDefaults = {
 export default class Pagination {
   constructor(option) {
     const settings = Object.assign({}, paginationDefaults, option); // 옵션 변경을 위한 설정
-    const rootElement = $(settings.rootSelector);
+    const rootElement = $(settings.slideRootSelector).find(settings.rootSelector);
 
     const elements = Object.assign({},{
-        bulletItem: rootElement.find(settings.bulletSelector)
+      rootElement,
+      bulletItem: rootElement.find(settings.bulletSelector)
     });
 
     const state = Object.assign({},{
@@ -37,7 +38,6 @@ export default class Pagination {
     // pagination : 생성
     if (settings.type === 'bullets') {
       let date = [];
-      const rootElement = document.querySelector('.slider-pagination');
       for (let i = 0; i < state.paginationNumber; i++) {
         if (i === 0) {
           date.push(`<span class="pagination-bullet active">${i}</span>`);
@@ -45,16 +45,19 @@ export default class Pagination {
           date.push(`<span class="pagination-bullet">${i}</span>`);
         }
       }
-      rootElement.innerHTML = date.join('');
+      rootElement.html(date.join(''));
     }
 
     // pagination : 클릭
     if (settings.clickable) {
-      $('.pagination-bullet').on('click', e => {
+      const clicktarget = rootElement.find('.pagination-bullet');
+      $(clicktarget).on('click', e => {
         const target = $(e.target);
         const index = target.index();
         target.addClass(state.activeClass).siblings().removeClass(state.activeClass);
         this.bulletMotion(index);
+
+        console.log(target)
       });
     }
   }
@@ -62,8 +65,7 @@ export default class Pagination {
   // 설정 : pagination (해당 currentIndex에 acitveClass 추가)
   bullets(index) {
     const { paginationNumber, activeClass } = this.state;
-    const rootElement = document.querySelector('.slider-pagination');
-    const bulletItem = $(rootElement).find('.pagination-bullet');
+    const bulletItem = this.elements.rootElement.find('.pagination-bullet');
     this.state.bulletsCurrentIndex = index;
 
     if (paginationNumber > 0) {

@@ -4,20 +4,30 @@ import Pagination from './components/pagination';
 // ================================== slider ==================================
 // slider 옵션 값
 const defaluts = {
+  // General
   direction: 'horizontal',
-  rootSelector: '.slider',
   activeClass: 'active',
   activeIndex: 0,
+
+  // Elements
+  rootSelector: '.slider',
   activeItemSelector: '.slider-item',
   prevButtonSelector: '.slider-button--prev',
   nextButtonSelector: '.slider-button--next',
+
+  // Carousel
   loop: false,
   min: 0,
   max: 0,
+
+  // Pagination
   pagination: false,
-  autoplay: {
-    delay: 1000
-  }
+
+  // Auto
+  auto: false,
+  autoStart: true,
+  autoDirection: 'next',
+  autoDelay: 0
 };
 
 class Slider {
@@ -42,8 +52,10 @@ class Slider {
       bulletBulid: elements.currentItem.length,
       bulletActiveIndex: state.currentIndex,
       clickable: true,
+      slideRootSelector: settings.rootSelector,
       changeSlide: this.setSlide.bind(this) // this 강제로 바꾸기 (.bind(this) , .call(this) , .apply(this))
     });
+    console.log(pagination)
 
     // 최대값 설정
     settings.max = rootElement.find(settings.activeItemSelector).length - 1;
@@ -202,9 +214,13 @@ const slider2 = new Slider({
 const slider3 = new Slider({
   rootSelector: '#slider3',
   loop: true,
-  pagination: {
-    rootSelector: '.slider-pagination'
-  }
+  pagination: true
+});
+
+const slider4 = new Slider({
+  rootSelector: '#slider4',
+  loop: true,
+  pagination: true
 });
 
 // type : autoplay
