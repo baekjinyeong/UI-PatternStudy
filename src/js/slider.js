@@ -103,6 +103,7 @@ class Slider {
     // 세팅: autopaly
     if (settings.autoplay) {
       this.autoplay();
+      pagination.bullets(state.currentIndex);
     }
   }
 
@@ -119,6 +120,7 @@ class Slider {
     } else if (currentIndex >= index) {
       this.motion(currentIndex);
     }
+    console.log(`currentIndex ${currentIndex}, index ${index}`);
   }
 
   // 옵션 : Previous
@@ -161,7 +163,10 @@ class Slider {
 
   // 옵션 : Autoplay
   autoplay() {
-
+    const { autoDelay } = this.settings;
+    setInterval(() => {
+      this.next();
+    }, autoDelay);
   }
 
   // 설정 : 슬라이드 이동 animate
@@ -231,5 +236,6 @@ const slider4 = new Slider({
   rootSelector: '#slider4',
   loop: true,
   pagination: true,
-  autoplay: true
+  autoplay: true,
+  autoDelay: 1000
 });
