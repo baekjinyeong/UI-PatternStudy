@@ -25,8 +25,7 @@ export default class Pagination {
     const state = Object.assign({},{
         paginationNumber: settings.bulletsLength,
         activeClass: settings.bulletsActiveClass,
-        bulletsCurrentIndex: settings.bulletActiveIndex,
-        listItem: settings.item
+        bulletsCurrentIndex: settings.bulletActiveIndex
     });
 
     Object.assign(this, {
@@ -53,6 +52,7 @@ export default class Pagination {
       $(rootElement).on('click', e => {
         const target = $(e.target);
         const index = target.index();
+
         target.addClass(state.activeClass).siblings().removeClass(state.activeClass);
         this.bulletMotion(index);
       });
