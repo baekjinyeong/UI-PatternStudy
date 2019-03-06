@@ -24,7 +24,7 @@ const defaluts = {
   pagination: false,
 
   // Auto
-  auto: false,
+  autoplay: false,
   autoStart: true,
   autoDirection: 'next',
   autoDelay: 0
@@ -49,13 +49,12 @@ class Slider {
 
     // pagination
     const pagination = new Pagination({
-      bulletBulid: elements.currentItem.length,
+      bulletsLength: elements.currentItem.length,
       bulletActiveIndex: state.currentIndex,
       clickable: true,
       slideRootSelector: settings.rootSelector,
       changeSlide: this.setSlide.bind(this) // this 강제로 바꾸기 (.bind(this) , .call(this) , .apply(this))
     });
-    console.log(pagination)
 
     // 최대값 설정
     settings.max = rootElement.find(settings.activeItemSelector).length - 1;
@@ -67,7 +66,7 @@ class Slider {
       pagination
     });
 
-    // 초기세팅
+    // 세팅: init
     const init = () => {
       if (settings.direction === 'horizontal') {
         elements.currentItem.css('left', '100%');
@@ -80,7 +79,7 @@ class Slider {
     };
     init();
 
-    // 이전 버튼 클릭
+    // 세팅: button Previous
     elements.prevButton.on('click', () => {
       this.prev();
       if (settings.pagination) {
@@ -88,13 +87,23 @@ class Slider {
       }
     });
 
-    // 다음 버튼 클릭
+    // 세팅: button Next
     elements.nextButton.on('click', () => {
       this.next();
       if (settings.pagination) {
         pagination.bullets(state.currentIndex);
       }
     });
+
+    // 세팅: pagination
+    if (settings.pagination) {
+      pagination;
+    }
+
+    // 세팅: autopaly
+    if (settings.autoplay) {
+      this.autoplay();
+    }
   }
 
   // pagination index 값 전달받기
@@ -217,11 +226,10 @@ const slider3 = new Slider({
   pagination: true
 });
 
+// type : autoplay
 const slider4 = new Slider({
   rootSelector: '#slider4',
   loop: true,
-  pagination: true
+  pagination: true,
+  autoplay: true
 });
-
-// type : autoplay
-// const slider4 = new Slider({});
