@@ -8,6 +8,7 @@ const defaluts = {
   direction: 'horizontal',
   activeClass: 'active',
   activeIndex: 0,
+  animateSpeed: 300,
 
   // Elements
   rootSelector: '.slider',
@@ -173,16 +174,23 @@ class Slider {
   }
 
   // 설정 : 슬라이드 이동 animate
-  motion(newIdx) {
+  motion(index) {
     let { currentIndex, activeClass } = this.state;
-    let { min, max, loop } = this.settings;
+    let { min, max, loop, animateSpeed } = this.settings;
     const { currentItem, nextButton, prevButton } = this.elements;
 
     currentItem.eq(currentIndex).css('left', 0);
+    console.log(`currentIndex: ${currentIndex}, index: ${index}, ${currentItem.length - 1}`)
 
-    if (currentIndex < newIdx) {
-      currentItem.eq(newIdx).css('left', '-100%');
+    // 이전으로 움직임
+    if (currentIndex < index) {
+      currentItem.eq(index).css('left', '-100%');
+
+      // currentItem.eq(currentIndex).css('left','-100%').stop().animate({left: 0}, animateSpeed);
+      // currentItem.eq(index).stop().animate({left: '100%'}, animateSpeed);
       this.activeButton();
+
+
 
       if (currentIndex === min) {
         prevButton.addClass(activeClass);
@@ -190,8 +198,13 @@ class Slider {
           prevButton.removeClass(activeClass);
         }
       }
-    } else if (currentIndex > newIdx) {
-      currentItem.eq(newIdx).css('left', '100%');
+
+    // 다음으로 움직임
+    } else if (currentIndex >= index) {
+      currentItem.eq(index).css('left', '100%');
+
+      // currentItem.eq(currentIndex).css('left','100%').stop().animate({left: 0}, animateSpeed);
+      // currentItem.eq(index).stop().animate({left: '-100%'}, animateSpeed);
       this.activeButton();
 
       if (currentIndex === max) {
@@ -243,3 +256,4 @@ const slider4 = new Slider({
   autoPlay: true,
   autoDelay: 3000
 });
+window.slider = slider1;
