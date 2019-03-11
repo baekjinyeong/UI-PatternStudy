@@ -37,15 +37,15 @@ export default class Pagination {
 
     // pagination : 생성
     if (settings.type === 'bullets') {
-      let paginetionData = [];
+      let paginationData = [];
       for (let i = 0; i < state.paginationNumber; i++) {
         if (i === 0) {
-          paginetionData.push(`<span class="pagination-bullet active">${i}</span>`);
+          paginationData.push(`<span class="pagination-bullet active">${i}</span>`);
         } else {
-          paginetionData.push(`<span class="pagination-bullet">${i}</span>`);
+          paginationData.push(`<span class="pagination-bullet">${i}</span>`);
         }
       }
-      rootElement.html(paginetionData.join(''));
+      rootElement.html(paginationData.join(''));
     }
 
     // pagination : 클릭
