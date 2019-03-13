@@ -1,6 +1,5 @@
 import $ from 'jquery';
 import Pagination from './components/pagination';
-import { networkInterfaces } from 'os';
 
 // ================================== slider ==================================
 // slider 옵션 값
@@ -106,24 +105,19 @@ class Slider {
     // 세팅: autopaly
     if (settings.autoPlay) {
       this.autoPlay();
-      pagination.bullets(state.currentIndex);
     }
   }
 
   // pagination index 값 전달받기
   setSlide(index) {
     const { currentIndex } = this.state;
-    const { currentItem } = this.elements;
-
     this.state.currentIndex = index;
 
-    if (currentIndex <= index) {
-      index = currentItem.eq(this.state.currentIndex).index();
+    if (currentIndex < index) {
       this.motion(currentIndex);
-    } else if (currentIndex >= index) {
+    } else if (currentIndex > index) {
       this.motion(currentIndex);
     }
-    console.log(`currentIndex ${currentIndex}, index ${index}`);
   }
 
   // 옵션 : Previous
@@ -181,11 +175,8 @@ class Slider {
     const { currentItem, nextButton, prevButton } = this.elements;
 
     currentItem.eq(currentIndex).css('left', 0);
-
-    console.log(currentIndex, index);
     // 이전 모션
     if (currentIndex < index) {
-      // currentItem.eq(index).css('left', '-100%');
       currentItem.eq(currentIndex).css('left','-100%').stop().animate({ left: 0 }, animateSpeed);
       currentItem.eq(index).stop().animate({ left: '100%' }, animateSpeed);
       this.activeButton();
@@ -199,14 +190,12 @@ class Slider {
 
     // 다음 모션
     } else if (currentIndex >= index) {
-      // currentItem.eq(index).css('left', '100%');
       currentItem.eq(currentIndex).css('left','100%').stop().animate({ left: 0 }, animateSpeed);
       currentItem.eq(index).stop().animate({ left: '-100%' }, animateSpeed);
       this.activeButton();
 
       if (currentIndex === max) {
         nextButton.addClass(activeClass);
-        index = 0;
 
         if (loop) {
           nextButton.removeClass(activeClass);
@@ -252,7 +241,7 @@ const slider4 = new Slider({
   loop: true,
   pagination: true,
   clickable: false,
-  // autoPlay: true,
-  // autoDelay: 3000
+  autoPlay: true,
+  autoDelay: 3000
 });
 window.slider = slider1;

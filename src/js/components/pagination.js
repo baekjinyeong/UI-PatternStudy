@@ -50,7 +50,9 @@ export default class Pagination {
 
     // pagination : 클릭
     if (settings.bulletClickable) {
-      $(rootElement).on('click', e => {
+      const bulletItem = rootElement.find(`.${settings.bulletSelectorClass}`);
+
+      bulletItem.on('click', e => {
         const target = $(e.target);
         const index = target.index();
 
