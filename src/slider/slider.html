@@ -12,84 +12,134 @@
 
 <body>
   <div class="wrapper">
-    <div id="slider1" class="slider">
-      <div class="slider-wrapper">
-        <div class="slider-inner-block">
-          <ul class="slider-list">
-            <li class="slider-item" style="background: rgb(130, 139, 103);">defaluts</li>
-            <li class="slider-item" style="background: rgb(161, 157, 150);">2</li>
-            <li class="slider-item" style="background: rgb(105, 151, 179);">3</li>
-            <li class="slider-item" style="background: rgb(124, 114, 94);">4</li>
-            <li class="slider-item" style="background: rgb(98, 112, 92);">5</li>
-          </ul>
+    <div class="slider-block">
+      <div id="slider1" class="slider">
+        <div class="slider-wrapper">
+          <div class="slider-inner-block">
+            <ul class="slider-list">
+              <li class="slider-item" style="background: rgb(130, 139, 103);">defaluts</li>
+              <li class="slider-item" style="background: rgb(161, 157, 150);">2</li>
+              <li class="slider-item" style="background: rgb(105, 151, 179);">3</li>
+              <li class="slider-item" style="background: rgb(124, 114, 94);">4</li>
+              <li class="slider-item" style="background: rgb(98, 112, 92);">5</li>
+            </ul>
+          </div>
+
+          <button type="button" class="slider-button slider-button--prev" title="왼쪽으로 슬라이드 넘기기"></button>
+          <button type="button" class="slider-button slider-button--next" title="오른쪽으로 슬라이드 넘기기"></button>
+
         </div>
+      </div>
 
-        <button type="button" class="slider-button slider-button--prev" title="왼쪽으로 슬라이드 넘기기"></button>
-        <button type="button" class="slider-button slider-button--next" title="오른쪽으로 슬라이드 넘기기"></button>
+      <div id="slider2" class="slider">
+        <div class="slider-wrapper">
+          <div class="slider-inner-block">
+            <ul class="slider-list">
+              <li class="slider-item" style="background: rgb(130, 139, 103);">loop</li>
+              <li class="slider-item" style="background: rgb(161, 157, 150);">2</li>
+              <li class="slider-item" style="background: rgb(105, 151, 179);">3</li>
+              <li class="slider-item" style="background: rgb(124, 114, 94);">4</li>
+              <li class="slider-item" style="background: rgb(98, 112, 92);">5</li>
+            </ul>
+          </div>
 
+          <button type="button" class="slider-button slider-button--prev" title="왼쪽으로 슬라이드 넘기기"></button>
+          <button type="button" class="slider-button slider-button--next" title="오른쪽으로 슬라이드 넘기기"></button>
+
+          <!-- <div class="slider-button-play">
+            <button class="button-auto-play button-start">재생</button>
+            <button class="button-auto-play button-stop">멈춤</button>
+          </div> -->
+        </div>
+      </div>
+
+      <div id="slider3" class="slider">
+        <div class="slider-wrapper">
+          <div class="slider-inner-block">
+            <ul class="slider-list">
+              <li class="slider-item" style="background: rgb(130, 139, 103);">pagination</li>
+              <li class="slider-item" style="background: rgb(161, 157, 150);">2</li>
+              <li class="slider-item" style="background: rgb(105, 151, 179);">3</li>
+              <li class="slider-item" style="background: rgb(124, 114, 94);">4</li>
+              <li class="slider-item" style="background: rgb(98, 112, 92);">5</li>
+            </ul>
+          </div>
+
+          <button type="button" class="slider-button slider-button--prev" title="왼쪽으로 슬라이드 넘기기"></button>
+          <button type="button" class="slider-button slider-button--next" title="오른쪽으로 슬라이드 넘기기"></button>
+
+          <!-- pagination 사용 시 추가 -->
+          <div class="slider-pagination"></div>
+
+        </div>
+      </div>
+
+      <div id="slider4" class="slider">
+        <div class="slider-wrapper">
+          <div class="slider-inner-block">
+            <ul class="slider-list">
+              <li class="slider-item" style="background: rgb(130, 139, 103);">autoplay</li>
+              <li class="slider-item" style="background: rgb(161, 157, 150);">2</li>
+              <li class="slider-item" style="background: rgb(105, 151, 179);">3</li>
+              <li class="slider-item" style="background: rgb(124, 114, 94);">4</li>
+              <li class="slider-item" style="background: rgb(98, 112, 92);">5</li>
+              <li class="slider-item" style="background: rgb(161, 128, 62);">6</li>
+              <li class="slider-item" style="background: rgb(79, 102, 145);">7</li>
+            </ul>
+          </div>
+
+          <!-- pagination 사용 시 추가 -->
+          <div class="slider-pagination"></div>
+
+        </div>
       </div>
     </div>
 
-    <div id="slider2" class="slider">
-      <div class="slider-wrapper">
-        <div class="slider-inner-block">
-          <ul class="slider-list">
-            <li class="slider-item" style="background: rgb(130, 139, 103);">loop</li>
-            <li class="slider-item" style="background: rgb(161, 157, 150);">2</li>
-            <li class="slider-item" style="background: rgb(105, 151, 179);">3</li>
-            <li class="slider-item" style="background: rgb(124, 114, 94);">4</li>
-            <li class="slider-item" style="background: rgb(98, 112, 92);">5</li>
-          </ul>
+    <div class="slider-block">
+      <div id="slider5" class="slider slider--vertical">
+        <div class="slider-wrapper">
+          <div class="slider-inner-block">
+            <ul class="slider-list">
+              <li class="slider-item" style="background: rgb(130, 139, 103);">vertical slides</li>
+              <li class="slider-item" style="background: rgb(161, 157, 150);">2</li>
+              <li class="slider-item" style="background: rgb(105, 151, 179);">3</li>
+              <li class="slider-item" style="background: rgb(124, 114, 94);">4</li>
+              <li class="slider-item" style="background: rgb(98, 112, 92);">5</li>
+            </ul>
+          </div>
+
+          <!-- pagination 사용 시 추가 -->
+          <div class="slider-pagination"></div>
+
         </div>
-
-        <button type="button" class="slider-button slider-button--prev" title="왼쪽으로 슬라이드 넘기기"></button>
-        <button type="button" class="slider-button slider-button--next" title="오른쪽으로 슬라이드 넘기기"></button>
-
-        <!-- <div class="slider-button-play">
-          <button class="button-auto-play button-start">재생</button>
-          <button class="button-auto-play button-stop">멈춤</button>
-        </div> -->
       </div>
     </div>
 
-    <div id="slider3" class="slider">
-      <div class="slider-wrapper">
-        <div class="slider-inner-block">
-          <ul class="slider-list">
-            <li class="slider-item" style="background: rgb(130, 139, 103);">pagination</li>
-            <li class="slider-item" style="background: rgb(161, 157, 150);">2</li>
-            <li class="slider-item" style="background: rgb(105, 151, 179);">3</li>
-            <li class="slider-item" style="background: rgb(124, 114, 94);">4</li>
-            <li class="slider-item" style="background: rgb(98, 112, 92);">5</li>
-          </ul>
+    <div class="slider-block">
+      <div id="slider6" class="slider slider--multiple">
+        <div class="slider-wrapper">
+          <div class="slider-inner-block">
+            <ul class="slider-list">
+              <li class="slider-item" style="background: rgb(130, 139, 103);">multiple slides</li>
+              <li class="slider-item" style="background: rgb(161, 157, 150);">2</li>
+              <li class="slider-item" style="background: rgb(105, 151, 179);">3</li>
+              <li class="slider-item" style="background: rgb(124, 114, 94);">4</li>
+              <li class="slider-item" style="background: rgb(98, 112, 92);">5</li>
+              <li class="slider-item" style="background: rgb(130, 139, 103);">6</li>
+              <li class="slider-item" style="background: rgb(161, 157, 150);">7</li>
+              <li class="slider-item" style="background: rgb(105, 151, 179);">8</li>
+              <li class="slider-item" style="background: rgb(124, 114, 94);">9</li>
+              <li class="slider-item" style="background: rgb(98, 112, 92);">10</li>
+            </ul>
+          </div>
+
+          <button type="button" class="slider-button slider-button--prev" title="왼쪽으로 슬라이드 넘기기"></button>
+          <button type="button" class="slider-button slider-button--next" title="오른쪽으로 슬라이드 넘기기"></button>
+
+          <!-- pagination 사용 시 추가 -->
+          <div class="slider-pagination"></div>
+
         </div>
-
-        <button type="button" class="slider-button slider-button--prev" title="왼쪽으로 슬라이드 넘기기"></button>
-        <button type="button" class="slider-button slider-button--next" title="오른쪽으로 슬라이드 넘기기"></button>
-
-        <!-- pagination 사용 시 추가 -->
-        <div class="slider-pagination"></div>
-
-      </div>
-    </div>
-
-    <div id="slider4" class="slider">
-      <div class="slider-wrapper">
-        <div class="slider-inner-block">
-          <ul class="slider-list">
-            <li class="slider-item" style="background: rgb(130, 139, 103);">autoplay</li>
-            <li class="slider-item" style="background: rgb(161, 157, 150);">2</li>
-            <li class="slider-item" style="background: rgb(105, 151, 179);">3</li>
-            <li class="slider-item" style="background: rgb(124, 114, 94);">4</li>
-            <li class="slider-item" style="background: rgb(98, 112, 92);">5</li>
-            <li class="slider-item" style="background: rgb(161, 128, 62);">6</li>
-            <li class="slider-item" style="background: rgb(79, 102, 145);">7</li>
-          </ul>
-        </div>
-
-        <!-- pagination 사용 시 추가 -->
-        <div class="slider-pagination"></div>
-
       </div>
     </div>
   </div>

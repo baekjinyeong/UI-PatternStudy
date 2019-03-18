@@ -1,7 +1,14 @@
-.wrapper {
-	height: 100%;
-}
+@import './common/mixins';
 
+.wrapper {
+  padding: 20px;
+  height: 100%;
+  .self-clear;
+}
+.slider-block {
+  float: left;
+  width: 50%;
+}
 .slider {
   display: flex;
   margin: 0 auto;
@@ -149,4 +156,37 @@
 			background-position-x: -29px;
 		}
 	}
+}
+
+.slider--vertical {
+  .slider-pagination {
+    margin-top: -49px;
+    position: absolute;
+    width: 23px;
+    top: 50%;
+    right: 0;
+  }
+  .pagination-bullet {
+    display: flex;
+    width: 13px;
+    height: 4px;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    & ~ .pagination-bullet {
+      margin: 3px 0 0 0;
+      text-align: center;
+    }
+    &.active {
+      padding: 0;
+      width: 23px;
+      height: 4px;
+      background-color: #ac0000;
+    }
+  }
+}
+
+.slider--multiple {
+  .slider-item {
+    width: 150px;
+  }
 }

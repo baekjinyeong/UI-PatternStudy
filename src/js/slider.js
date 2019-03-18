@@ -73,6 +73,9 @@ class Slider {
       if (settings.direction === 'horizontal') {
         elements.currentItem.css('left', '100%');
         elements.currentItem.eq(state.currentIndex).css('left', 0);
+      } else if (settings.direction === 'vertical') {
+        elements.currentItem.css('top', '100%');
+        elements.currentItem.eq(state.currentIndex).css('top', 0);
       }
       elements.prevButton.addClass(state.activeClass);
       if (settings.loop) {
@@ -171,27 +174,37 @@ class Slider {
   // 설정 : 슬라이드 이동 animate
   motion(index) {
     let { currentIndex, activeClass } = this.state;
-    let { min, max, loop, animateSpeed } = this.settings;
+    let { min, max, loop, animateSpeed, direction } = this.settings;
     const { currentItem, nextButton, prevButton } = this.elements;
-
+    console.log(`index: ${index}, currentIndex: ${currentIndex}`)
     currentItem.eq(currentIndex).css('left', 0);
+
     // 이전 모션
     if (currentIndex < index) {
-      currentItem.eq(currentIndex).css('left','-100%').stop().animate({ left: 0 }, animateSpeed);
-      currentItem.eq(index).stop().animate({ left: '100%' }, animateSpeed);
       this.activeButton();
 
       if (currentIndex === min) {
         prevButton.addClass(activeClass);
+
         if (loop) {
           prevButton.removeClass(activeClass);
         }
       }
 
+      // 가로 슬라이드
+      if (direction === 'horizontal') {
+        currentItem.eq(currentIndex).css('left','-100%').stop().animate({ left: 0 }, animateSpeed);
+        currentItem.eq(index).stop().animate({ left: '100%' }, animateSpeed);
+
+        // 세로 슬라이드
+      } else {
+        currentItem.eq(currentIndex).css('top','-100%').stop().animate({ top: 0 }, animateSpeed);
+        currentItem.eq(index).stop().animate({ top: '100%' }, animateSpeed);
+      }
+    }
+
     // 다음 모션
-    } else if (currentIndex >= index) {
-      currentItem.eq(currentIndex).css('left','100%').stop().animate({ left: 0 }, animateSpeed);
-      currentItem.eq(index).stop().animate({ left: '-100%' }, animateSpeed);
+    if (currentIndex > index) {
       this.activeButton();
 
       if (currentIndex === max) {
@@ -200,6 +213,17 @@ class Slider {
         if (loop) {
           nextButton.removeClass(activeClass);
         }
+      }
+
+      // 가로 슬라이드
+      if (direction === 'horizontal') {
+        currentItem.eq(currentIndex).css('left','100%').stop().animate({ left: 0 }, animateSpeed);
+        currentItem.eq(index).stop().animate({ left: '-100%' }, animateSpeed);
+
+      // 세로 슬라이드
+      } else {
+        currentItem.eq(currentIndex).css('top','100%').stop().animate({ top: 0 }, animateSpeed);
+        currentItem.eq(index).stop().animate({ top: '-100%' }, animateSpeed);
       }
     }
   }
@@ -241,7 +265,22 @@ const slider4 = new Slider({
   loop: true,
   pagination: true,
   clickable: false,
-  autoPlay: true,
-  autoDelay: 3000
+  // autoPlay: true,
+  // autoDelay: 3000
+});
+
+// type : vertical slider
+const slider5 = new Slider({
+  rootSelector: '#slider5',
+  loop: true,
+  pagination: true,
+  direction: 'vertical'
+});
+
+// type : Multiple slider
+const slider6 = new Slider({
+  rootSelector: '#slider6',
+  loop: true,
+  pagination: true
 });
 window.slider = slider1;
