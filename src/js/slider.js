@@ -12,9 +12,9 @@ const defaluts = {
 
   // Elements
   rootSelector: '.slider',
-  activeItemSelector: '.slider-item',
-  prevButtonSelector: '.slider-button--prev',
-  nextButtonSelector: '.slider-button--next',
+  activeItemSelectorClass: 'slider-item',
+  prevButtonSelectorClass: 'slider-button--prev',
+  nextButtonSelectorClass: 'slider-button--next',
 
   // Carousel
   loop: false,
@@ -38,9 +38,9 @@ class Slider {
     const rootElement = $(settings.rootSelector);
 
     const elements = Object.assign({}, {
-        prevButton: rootElement.find(settings.prevButtonSelector),
-        nextButton: rootElement.find(settings.nextButtonSelector),
-        currentItem: rootElement.find(settings.activeItemSelector)
+        prevButton: rootElement.find(`.${settings.prevButtonSelectorClass}`),
+        nextButton: rootElement.find(`.${settings.nextButtonSelectorClass}`),
+        currentItem: rootElement.find(`.${settings.activeItemSelectorClass}`)
     });
 
     const state = Object.assign({}, {
@@ -59,7 +59,7 @@ class Slider {
     });
 
     // 최대값 설정
-    settings.max = rootElement.find(settings.activeItemSelector).length - 1;
+    settings.max = rootElement.find(`.${settings.activeItemSelectorClass}`).length - 1;
 
     Object.assign(this, {
       settings,
